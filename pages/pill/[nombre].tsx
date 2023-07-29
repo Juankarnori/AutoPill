@@ -1,20 +1,29 @@
-import { MainLayout } from "@/components/layouts"
-import { usePill, usePills } from "@/hooks";
-import { Box, Button, Card, CardActionArea, CardMedia, Grid, Typography } from "@mui/material";
+import { NextPage } from "next";
+import { GetServerSideProps } from 'next';
 import { useRouter } from "next/router";
+import { MainLayout } from "@/components/layouts"
+import { FullScreenLoading } from "@/components/ui";
+import { usePill, usePills } from "@/hooks";
+import { IPill } from "@/interface";
+import { Box, Button, Card, CardActionArea, CardMedia, Grid, Typography } from "@mui/material";
+import { dbPills } from "@/database";
 
-const PillPage = () => {
+interface Props {
+    pill: IPill
+}
 
-    const router = useRouter();
-    const { pill, isLoading, error } = usePill(`/pills/${ router.query.nombre }`);
+const PillPage:NextPage<Props> = ({ pill }) => {
 
-    if ( isLoading ) {
-        return <h1>Cargando...</h1>
-    }
+    // const router = useRouter();
+    // const { pill, isLoading, error } = usePill(`/pills/${ router.query.nombre }`);
 
-    if ( !pill ) {
-        return <h1>No existe</h1>
-    }
+    // if ( isLoading ) {
+    //     return <FullScreenLoading />
+    // }
+
+    // if ( !pill ) {
+    //     return <h1>No existe</h1>
+    // }
 
   return (
     <MainLayout title={ pill.nombre } pageDescription={ pill.description }>
@@ -55,6 +64,31 @@ const PillPage = () => {
         </Grid>
     </MainLayout>
   )
+}
+
+// getServerSideProps
+// You should use getServerSideProps when:
+// - Only if you need to pre-render a page whose data must be fetched at request time
+
+export const getServerSideProps: GetServerSideProps = async ({ params }) => {
+
+    const { nombre = '' } = params as { nombre: string };
+    const pill = await dbPills.getPillByNombre( nombre );
+
+    if ( !pill ) {
+        return {
+            redirect: {
+                destination: '/',
+                permanent: false
+            }
+        }
+    }
+
+    return {
+        props: {
+            pill
+        }
+    }
 }
 
 export default PillPage
