@@ -16,3 +16,18 @@ export const getPillByNombre = async( nombre: string ): Promise<IPill | null> =>
     return JSON.parse( JSON.stringify( pill ) )
 
 }
+
+interface PillNombre {
+    nombre: string;
+}
+
+export const getAllPillsNombres = async(): Promise<PillNombre[]> => {
+
+    await db.connect();
+    const nombres = await Pill.find().select('nombre -_id').lean();
+
+    await db.disconnect();
+
+    return nombres;
+
+}
