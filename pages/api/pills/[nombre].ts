@@ -25,7 +25,7 @@ const getPillByNombre = async(req: NextApiRequest, res: NextApiResponse<Data>) =
 
     await db.connect();
     const { nombre } = req.query;
-    const pill = await Pill.findOne({ nombre }).lean();
+    const pill = await Pill.findOne({ nombre }).select('nombre description image -_id').lean();
     await db.disconnect();
 
     if( !pill ) {
