@@ -14,7 +14,7 @@ export const PillCard:FC<Props> = ({ pill }) => {
   return (
     <Grid item xs={6} sm={4}>
         <Card>
-            <NextLink href='/pill/slug' passHref legacyBehavior prefetch={ false }>
+            <NextLink href={`/pill/${ pill.nombre }`} passHref legacyBehavior prefetch={ false }>
                 <Link>
                     <CardActionArea>
                         <CardMedia 

@@ -1,10 +1,21 @@
 import { MainLayout } from "@/components/layouts"
-import { initialData } from "@/database/seed-data"
+import { usePill, usePills } from "@/hooks";
 import { Box, Button, Card, CardActionArea, CardMedia, Grid, Typography } from "@mui/material";
-
-const pill = initialData.pills[0];
+import { useRouter } from "next/router";
 
 const PillPage = () => {
+
+    const router = useRouter();
+    const { pill, isLoading, error } = usePill(`/pills/${ router.query.nombre }`);
+
+    if ( isLoading ) {
+        return <h1>Cargando...</h1>
+    }
+
+    if ( !pill ) {
+        return <h1>No existe</h1>
+    }
+
   return (
     <MainLayout title={ pill.nombre } pageDescription={ pill.description }>
         <Grid container spacing={3}>
