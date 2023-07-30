@@ -31,3 +31,33 @@ export const getAllPillsNombres = async(): Promise<PillNombre[]> => {
     return nombres;
 
 }
+
+export const getPillsByTerm = async ( term: string ): Promise<IPill[]> => {
+
+    term = term.toString().toLowerCase();
+
+    await db.connect();
+    const pills = await Pill.find({
+        $text: { $search: term }
+    })
+    .select('nombre description image -_id')
+    .lean();
+
+    await db.disconnect();
+
+    return pills;
+
+}
+
+export const getAllPills = async(): Promise<IPill[]> => {
+
+    await db.connect();
+    const pills = await Pill.find()
+                            .select('nombre description image -_id')
+                            .lean();
+
+    await db.disconnect();
+
+    return pills;
+
+}
