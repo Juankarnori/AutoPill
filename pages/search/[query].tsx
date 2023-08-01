@@ -21,11 +21,11 @@ const SearchPage: NextPage<Props> = ({ pills, foundPills, query }) => {
 
         {
             foundPills
-                ? <Typography variant='h2' sx={{ mb: 1 }}>Termino: {query}</Typography>
+                ? <Typography variant='h2' sx={{ mb: 1 }} textTransform='capitalize'>Termino: {query}</Typography>
                 : (
                     <Box display='flex' >
                         <Typography variant='h2' sx={{ mb: 1 }}>No encontramos ningun producto</Typography>
-                        <Typography variant='h2' sx={{ ml: 1 }} color='secondary'>{query}</Typography>
+                        <Typography variant='h2' sx={{ ml: 1 }} color='secondary' textTransform='capitalize'>{query}</Typography>
                     </Box>
                 )
         }

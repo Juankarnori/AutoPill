@@ -3,11 +3,14 @@ import { GetStaticPaths, GetStaticProps } from 'next';
 // import { GetServerSideProps } from 'next';
 import { useRouter } from "next/router";
 import { MainLayout } from "@/components/layouts"
-import { FullScreenLoading } from "@/components/ui";
+import { DosisCounter, FullScreenLoading } from "@/components/ui";
 import { usePill, usePills } from "@/hooks";
-import { IPill } from "@/interface";
-import { Box, Button, Card, CardActionArea, CardMedia, Grid, Typography } from "@mui/material";
+import { Data, IPill, Receta } from "@/interface";
+import { Box, Button, Card, CardActionArea, CardMedia, Divider, Grid, IconButton, MenuItem, Select, SelectChangeEvent, Typography } from "@mui/material";
 import { dbPills } from "@/database";
+import { useEffect, useState } from "react";
+import { horarios } from "@/utils";
+import { AddCircleOutline, RemoveCircleOutline } from "@mui/icons-material";
 
 interface Props {
     pill: IPill
@@ -25,6 +28,49 @@ const PillPage:NextPage<Props> = ({ pill }) => {
     // if ( !pill ) {
     //     return <h1>No existe</h1>
     // }
+
+    const [quantity, setQuantity] = useState(0);
+    const [hora, setHora] = useState(horarios[6].name);
+    const [datos, setDatos] = useState<Data[]>([]);
+    const elementos: number[] = [];
+
+    for (let index = 0; index < quantity; index++) {
+        elementos.push(index+1)
+    }
+
+    const onChageHora = ( event: SelectChangeEvent ) => {
+        setHora(event.target.value);
+    }
+
+    const addQuantity = () => {
+
+        let dato:Data = {
+            dosis: quantity + 1,
+            hora: horarios.find( ({name}) => name === hora )?.code!,
+            horario: hora
+        }
+
+        if ( quantity >= 6 ) return;
+
+        setQuantity( quantity + 1 );
+        setDatos([...datos, dato]);
+    }
+
+    const removeQuantity = () => {
+        if ( quantity === 0 ) return;
+
+        setQuantity( quantity - 1 );
+        setDatos(datos.slice(0,quantity-1))
+    }
+
+    const receta: Receta = {
+        pill: pill.nombre,
+        datos
+    }
+
+    const onAddReceta = () => {
+        console.log({ receta })
+    }
 
   return (
     <MainLayout title={ pill.nombre } pageDescription={ pill.description }>
@@ -47,9 +93,54 @@ const PillPage:NextPage<Props> = ({ pill }) => {
                     
                     {/* titulos */}
                     <Typography variant="h1" component='h1'>{pill.nombre}</Typography>
+                    <Typography variant="h2">Horarios</Typography>
+
+                    <Box sx={{ display: "flex", alignItems: 'center' }}>
+                        <Select
+                            variant="filled"
+                            label='Hora'
+                            value={ hora }
+                            onChange={ onChageHora }
+                        >
+                            {
+                                horarios.map( horario => (
+                                    <MenuItem
+                                        key={ horario.name }
+                                        value={ horario.name }
+                                    >
+                                        { horario.name }
+                                    </MenuItem>
+                                ))
+                            }
+                        </Select>
+                        <Box display='flex' alignItems='center'>
+                            <IconButton onClick={ () => removeQuantity() }>
+                                <RemoveCircleOutline />
+                            </IconButton>
+                            <Typography sx={{ width: 40, textAlign: 'center' }}> {quantity} </Typography>
+                            <IconButton onClick={ () => addQuantity() }>
+                                <AddCircleOutline />
+                            </IconButton>
+                        </Box>
+                    </Box>
+
+                    {
+                        datos.map( dato => (
+                            <Box key={dato.dosis}>
+                                <Divider />
+                                <Typography variant="subtitle1">Dosis: {dato.dosis}</Typography>
+                                <Typography variant="subtitle2">Hora: {dato.horario} </Typography>
+                            </Box>
+                        ))
+                    }
 
                     {/* Agregar boton */}
-                    <Button color="secondary" className="circular-btn" sx={{ mt: 2 }}>
+                    <Button 
+                        onClick={ onAddReceta }
+                        color="secondary" 
+                        className="circular-btn" 
+                        sx={{ mt: 2 }}
+                    >
                         Agregar
                     </Button>
 
