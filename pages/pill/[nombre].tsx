@@ -1,3 +1,4 @@
+import { useContext, useEffect, useState } from "react";
 import { NextPage } from "next";
 import { GetStaticPaths, GetStaticProps } from 'next';
 // import { GetServerSideProps } from 'next';
@@ -8,9 +9,9 @@ import { usePill, usePills } from "@/hooks";
 import { Data, IPill, Receta } from "@/interface";
 import { Box, Button, Card, CardActionArea, CardMedia, Divider, Grid, IconButton, MenuItem, Select, SelectChangeEvent, Typography } from "@mui/material";
 import { dbPills } from "@/database";
-import { useEffect, useState } from "react";
 import { horarios } from "@/utils";
 import { AddCircleOutline, RemoveCircleOutline } from "@mui/icons-material";
+import { RecetaContext } from "@/context";
 
 interface Props {
     pill: IPill
@@ -28,6 +29,9 @@ const PillPage:NextPage<Props> = ({ pill }) => {
     // if ( !pill ) {
     //     return <h1>No existe</h1>
     // }
+
+    const router = useRouter();
+    const {addRecetaToRecetario} = useContext(RecetaContext);
 
     const [quantity, setQuantity] = useState(0);
     const [hora, setHora] = useState(horarios[6].name);
@@ -64,12 +68,14 @@ const PillPage:NextPage<Props> = ({ pill }) => {
     }
 
     const receta: Receta = {
-        pill: pill.nombre,
+        pill: pill,
         datos
     }
 
     const onAddReceta = () => {
-        console.log({ receta })
+        if ( receta.datos.length === 0 ) {return;}
+        addRecetaToRecetario(receta);
+        router.push('/recetario');
     }
 
   return (

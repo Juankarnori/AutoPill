@@ -17,6 +17,7 @@
     "@types/react": "18.2.17",
     "@types/react-dom": "18.2.7",
     "bcryptjs": "^2.4.3",
+    "js-cookie": "^3.0.5",
     "mongoose": "^7.4.1",
     "next": "13.4.12",
     "react": "18.2.0",
@@ -25,6 +26,7 @@
     "typescript": "5.1.6"
   },
   "devDependencies": {
-    "@types/bcryptjs": "^2.4.2"
+    "@types/bcryptjs": "^2.4.2",
+    "@types/js-cookie": "^3.0.3"
   }
 }

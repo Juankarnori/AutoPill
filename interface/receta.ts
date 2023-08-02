@@ -1,3 +1,5 @@
+import { IPill } from "./pills";
+
 export interface Data {
     dosis: number;
     hora: number;
@@ -5,6 +7,6 @@ export interface Data {
 }
 
 export interface Receta {
-    pill: string;
+    pill: IPill;
     datos: Data[];
 }

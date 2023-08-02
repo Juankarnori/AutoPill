@@ -61,6 +61,11 @@ export const initialData: SeedData = {
             description: 'Antihipertensivo',
             image: 'enalten.png'
         },
+        {
+            nombre: 'Buprex',
+            description: 'Ibuprofeno',
+            image: 'buprex.png'
+        },
     ],
     // esp32s: [
     //     {
