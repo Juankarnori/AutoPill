@@ -1,12 +1,11 @@
 import { useContext, useEffect, useState } from "react";
 import { NextPage } from "next";
 import { GetStaticPaths, GetStaticProps } from 'next';
-// import { GetServerSideProps } from 'next';
 import { useRouter } from "next/router";
 import { MainLayout } from "@/components/layouts"
 import { DosisCounter, FullScreenLoading } from "@/components/ui";
 import { usePill, usePills } from "@/hooks";
-import { Data, IPill, Receta } from "@/interface";
+import { Data, IPill, Receta, Recetario } from "@/interface";
 import { Box, Button, Card, CardActionArea, CardMedia, Divider, Grid, IconButton, MenuItem, Select, SelectChangeEvent, Typography } from "@mui/material";
 import { dbPills } from "@/database";
 import { horarios } from "@/utils";
@@ -19,25 +18,24 @@ interface Props {
 
 const PillPage:NextPage<Props> = ({ pill }) => {
 
-    // const router = useRouter();
-    // const { pill, isLoading, error } = usePill(`/pills/${ router.query.nombre }`);
-
-    // if ( isLoading ) {
-    //     return <FullScreenLoading />
-    // }
-
-    // if ( !pill ) {
-    //     return <h1>No existe</h1>
-    // }
-
     const router = useRouter();
-    const {addRecetaToRecetario} = useContext(RecetaContext);
+    const {addRecetaToRecetario, addRecetario, recetas} = useContext(RecetaContext);
 
     const [quantity, setQuantity] = useState(0);
     const [hora, setHora] = useState(horarios[6].name);
     const [datos, setDatos] = useState<Data[]>([]);
+    const [recetarios, setRecetarios] = useState<Recetario[]>([]);
     const elementos: number[] = [];
 
+    // useEffect(() => {
+    //   recetas.map( r =>{
+    //     if ( r.pill.nombre !== pill.nombre ) return;
+    //     setDatos(r.datos)
+    //     let cantidad = r.datos.length;
+    //     setQuantity(cantidad)
+    //   })
+    // }, [])
+    
     for (let index = 0; index < quantity; index++) {
         elementos.push(index+1)
     }
@@ -49,21 +47,30 @@ const PillPage:NextPage<Props> = ({ pill }) => {
     const addQuantity = () => {
 
         let dato:Data = {
-            dosis: quantity + 1,
             hora: horarios.find( ({name}) => name === hora )?.code!,
             horario: hora
+        }
+
+        let recetario: Recetario = {
+            horario: hora,
+            hora: horarios.find( ({name}) => name === hora )?.code!,
+            pills: [pill]
         }
 
         if ( quantity >= 6 ) return;
 
         setQuantity( quantity + 1 );
         setDatos([...datos, dato]);
+        // addRecetario(recetario)
+        setRecetarios([...recetarios,recetario])
     }
 
     const removeQuantity = () => {
         if ( quantity === 0 ) return;
 
+        let ho = datos[quantity-1].hora;
         setQuantity( quantity - 1 );
+        setRecetarios(recetarios.slice(0,quantity-1))
         setDatos(datos.slice(0,quantity-1))
     }
 
@@ -132,9 +139,8 @@ const PillPage:NextPage<Props> = ({ pill }) => {
 
                     {
                         datos.map( dato => (
-                            <Box key={dato.dosis}>
+                            <Box key={dato.hora}>
                                 <Divider />
-                                <Typography variant="subtitle1">Dosis: {dato.dosis}</Typography>
                                 <Typography variant="subtitle2">Hora: {dato.horario} </Typography>
                             </Box>
                         ))
@@ -163,31 +169,6 @@ const PillPage:NextPage<Props> = ({ pill }) => {
     </MainLayout>
   )
 }
-
-// getServerSideProps
-// You should use getServerSideProps when:
-// - Only if you need to pre-render a page whose data must be fetched at request time
-
-// export const getServerSideProps: GetServerSideProps = async ({ params }) => {
-
-//     const { nombre = '' } = params as { nombre: string };
-//     const pill = await dbPills.getPillByNombre( nombre );
-
-    // if ( !pill ) {
-    //     return {
-    //         redirect: {
-    //             destination: '/',
-    //             permanent: false
-    //         }
-    //     }
-    // }
-
-//     return {
-//         props: {
-//             pill
-//         }
-//     }
-// }
 
 // getStaticPaths
 // You should use getStaticPaths if you’re statically pre-rendering pages that use dynamic routes

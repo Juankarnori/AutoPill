@@ -9,40 +9,10 @@ import { useContext, useEffect, useState } from "react"
 
 const RecetarioPage = () => {
 
-    const { recetas } = useContext(RecetaContext);
-    const [recetario, setRecetario] = useState<Recetario[]>([]);
-    const recetarios:Recetario[] = [];
+    const { recetas, recetarios, addRecetario } = useContext(RecetaContext);
 
     useEffect(() => {
-      horarios.map( h =>{
-        recetas.map( rs =>{
-            rs.datos.map( r =>{
-                if ( h.code === r.hora ) {
-                    let receta: Recetario;
-                    if (recetarios.some( rec => rec.hora === r.hora )) {
-                        let index = recetarios.length -1;
-                        let pill = recetarios[index].pills;
-                        receta = {
-                            horario: r.horario,
-                            hora: r.hora,
-                            pills: [...pill,rs.pill]
-                        }
-                        recetarios.pop()
-                        recetarios.push(receta)
-                        setRecetario(recetarios)
-                    } else {
-                        receta = {
-                            horario: r.horario,
-                            hora: r.hora,
-                            pills: [rs.pill]
-                        }
-                        recetarios.push(receta)
-                        setRecetario(recetarios)
-                    }
-                }
-            })
-        })
-      })
+      addRecetario(recetas)
     }, [recetas])
 
   return (
@@ -61,16 +31,17 @@ const RecetarioPage = () => {
 
                     {/* Receta Summary */}
                     {
-                        recetario.map( r =>(
+                        recetarios.map( r =>(
                             <Box key={r.hora}>
-                                <Typography variant="subtitle1">Horario {r.horario}</Typography>
+                                <Typography variant="subtitle1">Horario: {r.horario}</Typography>
                                 {
-                                    r.pills.map( p=> (
-                                        <Box key={ p.nombre }>
+                                    r.pills.map( p =>(
+                                        <Box key={p._id}>
                                             <Typography>{p.nombre}</Typography>
                                         </Box>
                                     ))
                                 }
+                                <Divider color='negro' />
                             </Box>
                         ))
                     }

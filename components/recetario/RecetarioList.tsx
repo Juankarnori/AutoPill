@@ -19,7 +19,7 @@ export const RecetarioList = () => {
           recetas.map( r  =>(
             <Grid container spacing={2} key={ r.pill.nombre } sx={{ mb: 1 }}>
               <Grid item xs={7}>
-                <NextLink href='/pill/Cirpril' passHref legacyBehavior>
+                <NextLink href={`/pill/${r.pill.nombre}`} passHref legacyBehavior>
                   <Link>
                     <CardActionArea>
                       <CardMedia 
@@ -38,8 +38,8 @@ export const RecetarioList = () => {
                   <Typography variant="subtitle2">Horarios</Typography>
                   {
                     r.datos.map( dato =>(
-                      <Box key={ dato.dosis }>
-                        <Typography variant="subtitle2">{ dato.dosis }: { dato.horario }</Typography>
+                      <Box key={ dato.hora }>
+                        <Typography variant="subtitle2">{ dato.horario }</Typography>
                       </Box>
                     ))
                   }
