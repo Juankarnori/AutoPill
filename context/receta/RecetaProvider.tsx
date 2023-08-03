@@ -90,7 +90,7 @@ export const RecetaProvider:FC<PropsWithChildren> = ({ children }) => {
     }
 
     const removeRecetarioReceta = ( receta: Receta ) => {
-
+        dispatch({ type: '[Receta] - Remove Receta in Recetario', payload: receta})
     }
 
     return (

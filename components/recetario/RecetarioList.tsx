@@ -1,5 +1,5 @@
 import NextLink from "next/link";
-import { Box, CardActionArea, CardMedia, Grid, Link, Typography } from "@mui/material"
+import { Box, Button, CardActionArea, CardMedia, Grid, Link, Typography } from "@mui/material"
 import { initialData } from "@/database/seed-data"
 import { useContext } from "react";
 import { RecetaContext } from "@/context";
@@ -11,7 +11,7 @@ const pillsInRecetario = [
 
 export const RecetarioList = () => {
 
-  const {recetas} = useContext(RecetaContext);
+  const {recetas, removeRecetarioReceta} = useContext(RecetaContext);
 
   return (
     <>
@@ -43,6 +43,15 @@ export const RecetarioList = () => {
                       </Box>
                     ))
                   }
+                  <Box>
+                    <Button 
+                      variant="text" 
+                      color="secondary"
+                      onClick={ () => removeRecetarioReceta(r)}
+                    >
+                      Remover
+                    </Button>
+                  </Box>
                 </Box>
               </Grid>
             </Grid>
