@@ -1,16 +1,17 @@
+import { useContext, useEffect, useState } from "react"
+import NextLink from "next/link";
+import { useRouter } from "next/router"
+import { Box, Button, Card, Divider, Grid, Link, Typography } from "@mui/material"
 import { MainLayout } from "@/components/layouts"
 import { RecetarioList } from "@/components/recetario"
-import { DosisCounter } from "@/components/ui"
 import { RecetaContext } from "@/context"
-import { Recetario } from "@/interface"
-import { horarios } from "@/utils"
-import { Box, Button, Card, Divider, Grid, Typography } from "@mui/material"
-import { useContext, useEffect, useState } from "react"
+import { EventBusy } from "@mui/icons-material"
 
 const RecetarioPage = () => {
 
-    const { recetas, recetarios, addRecetario } = useContext(RecetaContext);
-
+    const { recetas, recetarios, addRecetario, isLoaded } = useContext(RecetaContext);
+    const router = useRouter();
+    
     useEffect(() => {
       addRecetario(recetas)
     }, [recetas])
@@ -23,6 +24,27 @@ const RecetarioPage = () => {
             <Grid item xs={ 12 } sm={ 7 } >
                 {/* Recetario List */}
                 <RecetarioList />
+                {
+                    recetas.length === 0 && (
+                        <Box 
+                            display='flex' 
+                            justifyContent='center' 
+                            alignItems='center' 
+                            height='calc(100vh - 200px)'
+                            sx={{ flexDirection: { xs: 'column', sm: 'row' } }}
+                        >
+                            <EventBusy sx={{ fontSize: 100 }} />
+                            <Box display='flex' flexDirection='column' alignItems='center'>
+                                <Typography>Su recetario esta vacio</Typography>
+                                <NextLink href='/pills' passHref legacyBehavior>
+                                    <Link typography='h4' color='secondary'>
+                                        Regresar
+                                    </Link>
+                                </NextLink>
+                            </Box>
+                        </Box>
+                    )
+                }
             </Grid>
             <Grid item xs={ 12 } sm={ 5 } >
                 <Card className="summary-card">

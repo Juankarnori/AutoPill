@@ -19,6 +19,7 @@ export const recetaReducer = ( state: RecetaState, action: RecetaActionType ): R
         case '[Receta] - LoadReceta from cookies':
             return {
                 ...state,
+                isLoaded: true,
                 recetas: [ ...action.payload]
             }
 

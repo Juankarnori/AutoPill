@@ -2,6 +2,7 @@ import { Receta, Recetario } from '@/interface';
 import { createContext } from 'react';
 
 interface ContextProps {
+    isLoaded: boolean;
     recetas: Receta[];
     recetarios: Recetario[];
     addRecetaToRecetario: (receta: Receta) => void;

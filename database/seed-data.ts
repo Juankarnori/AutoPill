@@ -8,7 +8,7 @@ import bcrypt from 'bcryptjs';
 // }
 
 interface SeedUser {
-    user: string;
+    usuario: string;
     email: string;
     password: string;
     role: 'admin'|'client';
@@ -38,13 +38,13 @@ interface SeedData {
 export const initialData: SeedData = {
     users: [
         {
-            user: 'juank',
+            usuario: 'juank',
             email: 'juanknoriega070@gmail.com',
             password: bcrypt.hashSync('juankar10'),
             role: 'admin',
         },
         {
-            user: 'eli',
+            usuario: 'eli',
             email: 'bettyfreire@gmail.com',
             password: bcrypt.hashSync('123456'),
             role: 'client',

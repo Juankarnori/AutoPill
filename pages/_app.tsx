@@ -3,7 +3,7 @@ import type { AppProps } from 'next/app'
 import { SWRConfig } from 'swr'
 import { CssBaseline, ThemeProvider } from '@mui/material'
 import { lightTheme } from '@/themes'
-import { RecetaProvider, UiProvider } from '@/context'
+import { AuthProvider, RecetaProvider, UiProvider } from '@/context'
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
@@ -12,14 +12,16 @@ export default function App({ Component, pageProps }: AppProps) {
         fetcher: (resource, init) => fetch(resource, init).then(res => res.json())
       }}
     >
-      <RecetaProvider>
-        <UiProvider>
-          <ThemeProvider theme={ lightTheme }>
-            <CssBaseline />
-            <Component {...pageProps} />
-          </ThemeProvider>
-        </UiProvider>
-      </RecetaProvider>
+      <AuthProvider>
+        <RecetaProvider>
+          <UiProvider>
+            <ThemeProvider theme={ lightTheme }>
+              <CssBaseline />
+              <Component {...pageProps} />
+            </ThemeProvider>
+          </UiProvider>
+        </RecetaProvider>
+      </AuthProvider>
     </SWRConfig>
   )
 }

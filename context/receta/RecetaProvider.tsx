@@ -5,11 +5,13 @@ import { Data, IPill, Receta, Recetario } from '@/interface';
 import { horarios } from '@/utils';
 
 export interface RecetaState {
+    isLoaded: boolean;
     recetas: Receta[];
     recetarios: Recetario[];
 }
 
 const Receta_INITIAL_STATE: RecetaState = {
+    isLoaded: false,
     recetas: [],
     recetarios: [],
 }
@@ -19,17 +21,21 @@ export const RecetaProvider:FC<PropsWithChildren> = ({ children }) => {
     const [state, dispatch] = useReducer(recetaReducer, Receta_INITIAL_STATE);
 
     useEffect(() => {
-      const cookieReceta: Receta[] = Cookie.get('receta') ? JSON.parse( Cookie.get('receta')! ) : []
-    //   const cookieRecetario: Recetario[] = Cookie.get('recetario') ? JSON.parse( Cookie.get('recetario')! ) : []
-      dispatch({ type: '[Receta] - LoadReceta from cookies', payload: cookieReceta });
-    //   dispatch({ type: '[Recetario] - LoadRecetario from cookies', payload: cookieRecetario });
+        try {
+            const cookieReceta: Receta[] = Cookie.get('receta') ? JSON.parse( Cookie.get('receta')! ) : []
+            dispatch({ type: '[Receta] - LoadReceta from cookies', payload: cookieReceta });
+        } catch (error) {
+            dispatch({ type: '[Receta] - LoadReceta from cookies', payload: []})
+        }
     }, [])
     
     useEffect(() => {
-        if(state.recetas.length === 0) return
-        // if(state.recetarios.length === 0) return
-      Cookie.set('receta', JSON.stringify( state.recetas ))
-    //   Cookie.set('recetario',JSON.stringify( state.recetarios ))
+        // if(state.recetas.length === 0) return
+        if(state.recetas.length === 0) {
+            Cookie.set('receta','');
+            return;
+        }
+        Cookie.set('receta', JSON.stringify( state.recetas ))
     }, [state.recetas])
 
     const addRecetaToRecetario = ( receta: Receta ) => {
