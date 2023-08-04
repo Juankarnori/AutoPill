@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import NextLink from "next/link";
 import { AuthLayout } from "@/components/layouts"
@@ -18,11 +18,11 @@ type FormaData = {
 const RegisterPage = () => {
 
     const router = useRouter();
-    const { registerUser } = useContext(AuthContext);
+    const { registerUser, isLoggedIn } = useContext(AuthContext);
     const { register, handleSubmit, formState: { errors } } = useForm<FormaData>();
     const [showError, setShowError] = useState(false);
     const [errorMessage, setErrorMessage] = useState('');
-
+    
     const onRegisterForm = async( { email, password, usuario }: FormaData ) => {
 
         setShowError(false);

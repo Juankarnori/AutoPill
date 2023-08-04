@@ -1,13 +1,14 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import NextLink from "next/link";
 import { Box, Button, Chip, Grid, Link, TextField, Typography } from "@mui/material"
 import { ErrorOutline } from "@mui/icons-material";
 import { AuthLayout } from "@/components/layouts"
-import { validations } from "@/utils";
+import { jwt, validations } from "@/utils";
 import { autopillApi } from "@/api";
 import { AuthContext } from "@/context";
 import { useRouter } from "next/router";
+import Cookies from "js-cookie";
 
 type FormaData = {
     email: string;
@@ -17,10 +18,10 @@ type FormaData = {
 const LoginPage = () => {
 
     const router = useRouter();
-    const { loginUser } = useContext(AuthContext);
+    const { loginUser, isLoggedIn } = useContext(AuthContext);
     const { register, handleSubmit, formState: { errors } } = useForm<FormaData>();
     const [showError, setShowError] = useState(false);
-
+    
     const onLoginUser = async( { email, password }: FormaData ) => {
 
         setShowError(false);

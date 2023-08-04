@@ -14,18 +14,7 @@ const RecetarioPage = () => {
 
     useEffect(() => {
       addRecetario(recetas)
-      if ( isLoaded && recetas.length === 0 ) {
-        router.replace('/recetario/empty');
-      }
-    }, [ isLoaded, recetas, router ])
-
-    if ( !isLoaded || recetas.length === 0 ) {
-        return (<></>);
-    }
-
-    // useEffect(() => {
-    //   addRecetario(recetas)
-    // }, [recetas])
+    }, [recetas])
 
   return (
     <MainLayout title={"Recetario"} pageDescription={"Recetario"}>

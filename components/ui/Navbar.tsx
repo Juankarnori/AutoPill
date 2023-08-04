@@ -3,12 +3,13 @@ import NextLink from 'next/link';
 import { useRouter } from 'next/router';
 import { AppBar, Toolbar, Typography, Link, Box, Button, IconButton, Badge, Input, InputAdornment } from '@mui/material';
 import { ClearOutlined, MedicalInformationOutlined, SearchOutlined } from '@mui/icons-material';
-import { UiContext } from '@/context';
+import { RecetaContext, UiContext } from '@/context';
 
 export const Navbar = () => {
 
     const { asPath, push } = useRouter();
     const { toggleSideMenu } = useContext( UiContext );
+    const { isLoaded, recetas } = useContext(RecetaContext);
 
     const [searchTerm, setSearchTerm] = useState('');
     const [isSearchVisible, setIsSearchVisible] = useState(false);

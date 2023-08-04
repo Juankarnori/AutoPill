@@ -1,6 +1,7 @@
-import { NextResponse, type NextRequest } from 'next/server'
+import { NextResponse, NextRequest } from 'next/server'
  
 import * as jose from 'jose';
+import { jwt } from './utils';
  
 export async function middleware(req: NextRequest) {
   const previousPage = req.nextUrl.pathname;
@@ -17,10 +18,11 @@ export async function middleware(req: NextRequest) {
       );
     }
   }
+
 };
  
 export const config = {
   matcher: [
-    '/recetario/:path*'
+    '/recetario/:path*',
   ],
 };
