@@ -30,11 +30,7 @@ export const RecetaProvider:FC<PropsWithChildren> = ({ children }) => {
     }, [])
     
     useEffect(() => {
-        // if(state.recetas.length === 0) return
-        if(state.recetas.length === 0) {
-            Cookie.set('receta','');
-            return;
-        }
+        if(state.recetas.length === 0) return
         Cookie.set('receta', JSON.stringify( state.recetas ))
     }, [state.recetas])
 
@@ -96,6 +92,8 @@ export const RecetaProvider:FC<PropsWithChildren> = ({ children }) => {
     }
 
     const removeRecetarioReceta = ( receta: Receta ) => {
+        const updateReceta = state.recetas.filter( r => !(r.pill.nombre === receta.pill.nombre) );
+        Cookie.set('receta', JSON.stringify( updateReceta ))
         dispatch({ type: '[Receta] - Remove Receta in Recetario', payload: receta})
     }
 

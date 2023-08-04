@@ -11,10 +11,21 @@ const RecetarioPage = () => {
 
     const { recetas, recetarios, addRecetario, isLoaded } = useContext(RecetaContext);
     const router = useRouter();
-    
+
     useEffect(() => {
       addRecetario(recetas)
-    }, [recetas])
+      if ( isLoaded && recetas.length === 0 ) {
+        router.replace('/recetario/empty');
+      }
+    }, [ isLoaded, recetas, router ])
+
+    if ( !isLoaded || recetas.length === 0 ) {
+        return (<></>);
+    }
+
+    // useEffect(() => {
+    //   addRecetario(recetas)
+    // }, [recetas])
 
   return (
     <MainLayout title={"Recetario"} pageDescription={"Recetario"}>
@@ -24,27 +35,6 @@ const RecetarioPage = () => {
             <Grid item xs={ 12 } sm={ 7 } >
                 {/* Recetario List */}
                 <RecetarioList />
-                {
-                    recetas.length === 0 && (
-                        <Box 
-                            display='flex' 
-                            justifyContent='center' 
-                            alignItems='center' 
-                            height='calc(100vh - 200px)'
-                            sx={{ flexDirection: { xs: 'column', sm: 'row' } }}
-                        >
-                            <EventBusy sx={{ fontSize: 100 }} />
-                            <Box display='flex' flexDirection='column' alignItems='center'>
-                                <Typography>Su recetario esta vacio</Typography>
-                                <NextLink href='/pills' passHref legacyBehavior>
-                                    <Link typography='h4' color='secondary'>
-                                        Regresar
-                                    </Link>
-                                </NextLink>
-                            </Box>
-                        </Box>
-                    )
-                }
             </Grid>
             <Grid item xs={ 12 } sm={ 5 } >
                 <Card className="summary-card">
