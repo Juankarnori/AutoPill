@@ -140,8 +140,9 @@ const PillPage:NextPage<Props> = ({ pill }) => {
                     {
                         datos.map( dato => (
                             <Box key={dato.hora}>
-                                <Divider />
+                                <Typography variant="subtitle1">Dosis: {quantity}</Typography>
                                 <Typography variant="subtitle2">Hora: {dato.horario} </Typography>
+                                <Divider variant="middle" />
                             </Box>
                         ))
                     }
