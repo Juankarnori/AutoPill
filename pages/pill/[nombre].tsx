@@ -26,15 +26,6 @@ const PillPage:NextPage<Props> = ({ pill }) => {
     const [datos, setDatos] = useState<Data[]>([]);
     const [recetarios, setRecetarios] = useState<Recetario[]>([]);
     const elementos: number[] = [];
-
-    // useEffect(() => {
-    //   recetas.map( r =>{
-    //     if ( r.pill.nombre !== pill.nombre ) return;
-    //     setDatos(r.datos)
-    //     let cantidad = r.datos.length;
-    //     setQuantity(cantidad)
-    //   })
-    // }, [])
     
     for (let index = 0; index < quantity; index++) {
         elementos.push(index+1)
@@ -61,7 +52,6 @@ const PillPage:NextPage<Props> = ({ pill }) => {
 
         setQuantity( quantity + 1 );
         setDatos([...datos, dato]);
-        // addRecetario(recetario)
         setRecetarios([...recetarios,recetario])
     }
 

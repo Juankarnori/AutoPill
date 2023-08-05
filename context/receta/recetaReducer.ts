@@ -6,6 +6,7 @@ type RecetaActionType =
 | { type: '[Recetario] - Agregar Recetario', payload: Recetario[] }
 | { type: '[Receta] - LoadReceta from cookies', payload: Receta[] }
 | { type: '[Receta] - Remove Receta in Recetario', payload: Receta }
+| { type: '[Receta] - Recceta complete'}
 
 export const recetaReducer = ( state: RecetaState, action: RecetaActionType ): RecetaState => {
 
@@ -33,6 +34,12 @@ export const recetaReducer = ( state: RecetaState, action: RecetaActionType ): R
             return {
                 ...state,
                 recetas: state.recetas.filter( r => !(r.pill.nombre === action.payload.pill.nombre) )
+            }
+
+        case '[Receta] - Recceta complete':
+            return {
+                ...state,
+                recetas: []
             }
 
         default:

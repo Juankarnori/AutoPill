@@ -1,8 +1,11 @@
-import { FC, PropsWithChildren, useEffect, useReducer } from 'react';
+import { FC, PropsWithChildren, useContext, useEffect, useReducer } from 'react';
 import Cookie from 'js-cookie';
 import { RecetaContext, recetaReducer } from './';
-import { Data, IPill, Receta, Recetario } from '@/interface';
+import { Data, IPill, IRecetario, Receta, Recetario } from '@/interface';
 import { horarios } from '@/utils';
+import { autopillApi } from '@/api';
+import { AuthContext } from '../auth';
+import axios from 'axios';
 
 export interface RecetaState {
     isLoaded: boolean;
@@ -19,6 +22,7 @@ const Receta_INITIAL_STATE: RecetaState = {
 export const RecetaProvider:FC<PropsWithChildren> = ({ children }) => {
 
     const [state, dispatch] = useReducer(recetaReducer, Receta_INITIAL_STATE);
+    const { user } = useContext(AuthContext);
 
     useEffect(() => {
         try {
@@ -97,6 +101,42 @@ export const RecetaProvider:FC<PropsWithChildren> = ({ children }) => {
         dispatch({ type: '[Receta] - Remove Receta in Recetario', payload: receta})
     }
 
+    const createRecetario = async(): Promise<{ hasError: boolean; message: string; }> => {
+
+        if ( !state.recetarios ) {
+            throw new Error('No hay recetarios');
+        }
+
+        const body: IRecetario = {
+            recetas: state.recetarios,
+        }
+
+        try {
+            
+            const { data } = await autopillApi.post<IRecetario>('/recetario', body);
+
+            dispatch({ type: '[Receta] - Recceta complete'});
+
+            return {
+                hasError: false,
+                message: data._id!
+            }
+
+        } catch (error) {
+            if ( axios.isAxiosError(error) ) {
+                return {
+                    hasError: true,
+                    message: error.response?.data.message
+                }
+            }
+            return {
+                hasError: true,
+                message: 'Error no contrado, hable con el administrador'
+            }
+        }
+
+    }
+
     return (
         <RecetaContext.Provider value={{
             ...state,
@@ -104,6 +144,7 @@ export const RecetaProvider:FC<PropsWithChildren> = ({ children }) => {
             addRecetaToRecetario,
             removeRecetarioReceta,
             addRecetario,
+            createRecetario,
         }}>
             { children }
         </RecetaContext.Provider>

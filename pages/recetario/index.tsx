@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from "react"
 import NextLink from "next/link";
 import { useRouter } from "next/router"
-import { Box, Button, Card, Divider, Grid, Link, Typography } from "@mui/material"
+import { Box, Button, Card, Chip, Divider, Grid, Link, Typography } from "@mui/material"
 import { MainLayout } from "@/components/layouts"
 import { RecetarioList } from "@/components/recetario"
 import { RecetaContext } from "@/context"
@@ -9,13 +9,29 @@ import { EventBusy } from "@mui/icons-material"
 
 const RecetarioPage = () => {
 
-    const { recetas, recetarios, addRecetario, isLoaded } = useContext(RecetaContext);
+    const { recetas, recetarios, addRecetario, isLoaded, createRecetario } = useContext(RecetaContext);
+    const [isPosting, setIsPosting] = useState(false);
+    const [errorMessage, setErrorMessage] = useState('');
     const router = useRouter();
 
     useEffect(() => {
       addRecetario(recetas)
     }, [recetas])
 
+    const onCreateRecetario = async() => {
+        setIsPosting(true);
+        const { hasError, message } = await createRecetario();
+
+        if ( hasError ) {
+            setIsPosting(false);
+            setErrorMessage( message );
+            return;
+        }
+
+        router.replace(`/recetas/${ message }`);
+        
+    }
+    
   return (
     <MainLayout title={"Recetario"} pageDescription={"Recetario"}>
         <Typography variant="h1" component='h1'>Recetario</Typography>
@@ -47,10 +63,22 @@ const RecetarioPage = () => {
                         ))
                     }
 
-                    <Box sx={{ mt: 3 }}>
-                        <Button color="secondary" className="circular-btn" fullWidth>
+                    <Box sx={{ mt: 3 }} display='flex' flexDirection='column'>
+                        <Button 
+                            color="secondary" 
+                            className="circular-btn" 
+                            fullWidth
+                            onClick={ onCreateRecetario }
+                            disabled={ isPosting }
+                        >
                             Recetar
                         </Button>
+
+                        <Chip 
+                            color="error"
+                            label={ errorMessage }
+                            sx={{ display: errorMessage ? 'flex' : 'none', mt: 2 }}
+                        />
                     </Box>
 
                 </Card>
