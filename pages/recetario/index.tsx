@@ -1,4 +1,5 @@
 import { useContext, useEffect, useState } from "react"
+import { GetServerSideProps, NextPage } from 'next'
 import NextLink from "next/link";
 import { useRouter } from "next/router"
 import { Box, Button, Card, Chip, Divider, Grid, Link, Typography } from "@mui/material"
@@ -6,8 +7,9 @@ import { MainLayout } from "@/components/layouts"
 import { RecetarioList } from "@/components/recetario"
 import { RecetaContext } from "@/context"
 import { EventBusy } from "@mui/icons-material"
+import { jwt } from "@/utils";
 
-const RecetarioPage = () => {
+const RecetarioPage:NextPage = () => {
 
     const { recetas, recetarios, addRecetario, isLoaded, createRecetario } = useContext(RecetaContext);
     const [isPosting, setIsPosting] = useState(false);
@@ -87,6 +89,37 @@ const RecetarioPage = () => {
 
     </MainLayout>
   )
+}
+
+// You should use getServerSideProps when:
+// - Only if you need to pre-render a page whose data must be fetched at request time
+
+export const getServerSideProps: GetServerSideProps = async ({ req, query }) => {
+
+    const { token = '' } = req.cookies;
+    let isValidToken = false;
+
+    try {
+        await jwt.isValidToken( token );
+        isValidToken = true;
+    } catch (error) {
+        isValidToken = false;
+    }
+
+    if ( !isValidToken ) {
+        return {
+            redirect: {
+                destination: '/auth/login?p=/recetario',
+                permanent: false
+            }
+        }
+    }
+
+    return {
+        props: {
+
+        }
+    }
 }
 
 export default RecetarioPage
