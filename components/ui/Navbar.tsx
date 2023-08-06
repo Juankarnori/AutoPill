@@ -44,6 +44,11 @@ export const Navbar = () => {
                         <Button color={ asPath === '/pills' ? 'primary' : 'info' }>Medicamentos</Button>
                     </Link>
                 </NextLink> 
+               {/* <NextLink href='/recetas/history' passHref legacyBehavior>
+                    <Link>
+                        <Button color={ asPath === '/recetas/history' ? 'primary' : 'info' }>Recetas</Button>
+                    </Link>
+                </NextLink>  */}
             </Box>
 
             <Box flex={1}/>
@@ -93,7 +98,7 @@ export const Navbar = () => {
             <NextLink href='/recetario' passHref legacyBehavior>
                 <Link>
                     <IconButton>
-                        <Badge badgeContent={ 2 } color='secondary'>
+                        <Badge badgeContent={ recetas.length } color='secondary'>
                             <MedicalInformationOutlined />  
                         </Badge>
                     </IconButton>

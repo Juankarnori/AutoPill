@@ -66,7 +66,10 @@ export const SideMenu = () => {
                                 <ListItemText primary={'Perfil'} />
                             </ListItem>
 
-                            <ListItem button>
+                            <ListItem 
+                                button
+                                onClick={ () => navigateTo('/recetas/history') }
+                            >
                                 <ListItemIcon>
                                     <MedicationLiquidOutlined/>
                                 </ListItemIcon>

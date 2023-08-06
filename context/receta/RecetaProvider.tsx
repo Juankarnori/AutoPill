@@ -117,6 +117,8 @@ export const RecetaProvider:FC<PropsWithChildren> = ({ children }) => {
 
             dispatch({ type: '[Receta] - Recceta complete'});
 
+            Cookie.set('receta', JSON.stringify( [] ))
+
             return {
                 hasError: false,
                 message: data._id!

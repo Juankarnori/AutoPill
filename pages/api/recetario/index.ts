@@ -28,6 +28,8 @@ const createRecetario = async(req: NextApiRequest, res: NextApiResponse<Data>) =
 
     console.log({body})
 
+    console.log({body})
+
     const { token = '' } = req.cookies;
 
     let userId = '';
@@ -50,7 +52,7 @@ const createRecetario = async(req: NextApiRequest, res: NextApiResponse<Data>) =
 
     try {
         const iduser = user._id;
-        const newRecetario = new Recetario({ ...body, user });
+        const newRecetario = new Recetario({ ...body, user: userId, isLoaded: false });
         await newRecetario.save();
 
         await db.disconnect();

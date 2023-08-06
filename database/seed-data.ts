@@ -52,9 +52,84 @@ export const initialData: SeedData = {
     ],
     pills: [
         {
-            nombre: 'Cirpril',
+            nombre: 'Acido Alendronico',
             description: 'Antihipertensivo',
+            image: 'acido_alendronico.png'
+        },
+        {
+            nombre: 'Acido Valproico',
+            description: 'Antihipertensivo',
+            image: 'acido_valproico.png'
+        },
+        {
+            nombre: 'Albendazol',
+            description: 'Ibuprofeno',
+            image: 'albendazol.png'
+        },
+        {
+            nombre: 'Alprazolam',
+            description: 'Ibuprofeno',
+            image: 'alprazolam.png'
+        },
+        {
+            nombre: 'Amlodipina',
+            description: 'Antihipertensivo',
+            image: 'amlodipina.png'
+        },
+        {
+            nombre: 'Biperideno',
+            description: 'Antihipertensivo',
+            image: 'biperideno.png'
+        },
+        {
+            nombre: 'Buprex',
+            description: 'Ibuprofeno',
+            image: 'buprex.png'
+        },
+        {
+            nombre: 'Calcio Carbonato',
+            description: 'Ibuprofeno',
+            image: 'calcio_carbonato.png'
+        },
+        {
+            nombre: 'Carbamazepina',
+            description: 'Antihipertensivo',
+            image: 'carbamazepina.png'
+        },
+        {
+            nombre: 'Cefuroxima',
+            description: 'Antihipertensivo',
+            image: 'cefuroxima.png'
+        },
+        {
+            nombre: 'Cirpril',
+            description: 'Ibuprofeno',
             image: 'cirpril.png'
+        },
+        {
+            nombre: 'Clopidogrel',
+            description: 'Ibuprofeno',
+            image: 'clopidogrel.png'
+        },
+        {
+            nombre: 'Clortalidona',
+            description: 'Antihipertensivo',
+            image: 'clortalidona.png'
+        },
+        {
+            nombre: 'Complejob',
+            description: 'Antihipertensivo',
+            image: 'complejob.png'
+        },
+        {
+            nombre: 'Cotrimoxazol',
+            description: 'Ibuprofeno',
+            image: 'cotrimoxazol.png'
+        },
+        {
+            nombre: 'Enalapril',
+            description: 'Ibuprofeno',
+            image: 'enalapril.png'
         },
         {
             nombre: 'Enalten',
@@ -62,9 +137,79 @@ export const initialData: SeedData = {
             image: 'enalten.png'
         },
         {
-            nombre: 'Buprex',
+            nombre: 'Ibuprofeno',
+            description: 'Antihipertensivo',
+            image: 'ibuprofeno.png'
+        },
+        {
+            nombre: 'Lamotrigina',
             description: 'Ibuprofeno',
-            image: 'buprex.png'
+            image: 'lamotrigina.png'
+        },
+        {
+            nombre: 'Levofloxacina',
+            description: 'Ibuprofeno',
+            image: 'levofloxacina.png'
+        },
+        {
+            nombre: 'Levotiroxina',
+            description: 'Antihipertensivo',
+            image: 'levotiroxina.png'
+        },
+        {
+            nombre: 'Loratadina',
+            description: 'Antihipertensivo',
+            image: 'loratadina.png'
+        },
+        {
+            nombre: 'Losartan',
+            description: 'Ibuprofeno',
+            image: 'losartan.png'
+        },
+        {
+            nombre: 'Metformina',
+            description: 'Ibuprofeno',
+            image: 'metformina.png'
+        },
+        {
+            nombre: 'Omeprazol',
+            description: 'Antihipertensivo',
+            image: 'omeprazol.png'
+        },
+        {
+            nombre: 'Paracetamol',
+            description: 'Antihipertensivo',
+            image: 'paracetamol.png'
+        },
+        {
+            nombre: 'Quetiapina',
+            description: 'Ibuprofeno',
+            image: 'quetiapina.png'
+        },
+        {
+            nombre: 'Sertralina',
+            description: 'Ibuprofeno',
+            image: 'sertralina.png'
+        },
+        {
+            nombre: 'Simvastatina',
+            description: 'Antihipertensivo',
+            image: 'simvastatina.png'
+        },
+        {
+            nombre: 'Tamsulosina',
+            description: 'Antihipertensivo',
+            image: 'tamsulosina.png'
+        },
+        {
+            nombre: 'Tinidazol',
+            description: 'Ibuprofeno',
+            image: 'tinidazol.png'
+        },
+        {
+            nombre: 'Tiotropio Bromuro',
+            description: 'Ibuprofeno',
+            image: 'tiotropio_bromuro.png'
         },
     ],
     // esp32s: [

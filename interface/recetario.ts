@@ -8,9 +8,10 @@ export interface Recetario {
 }
 
 export interface IRecetario {
-    _id?    : string;
-    user?   : IUser | string;
-    recetas : Recetario[];
+    _id?     : string;
+    user?    : IUser | string;
+    recetas  : Recetario[];
+    isLoaded?: boolean;
 
     createdAt?  : string;
     updatedAt?  : string;

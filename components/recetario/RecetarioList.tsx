@@ -1,13 +1,7 @@
 import NextLink from "next/link";
 import { Box, Button, CardActionArea, CardMedia, Grid, Link, Typography } from "@mui/material"
-import { initialData } from "@/database/seed-data"
 import { useContext } from "react";
 import { RecetaContext } from "@/context";
-
-const pillsInRecetario = [
-    initialData.pills[0],
-    initialData.pills[1],
-]
 
 export const RecetarioList = () => {
 

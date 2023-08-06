@@ -8,7 +8,8 @@ const recetarioSchema = new Schema({
         horario: { type: String, required: true},
         hora: { type: Number, required: true},
         pills: { type: [Schema.Types.ObjectId], ref: 'Pill' ,required: true},
-    }]
+    }],
+    isLoaded: { type: Boolean, required: true, default: false },
 
 }, {
     timestamps: true,

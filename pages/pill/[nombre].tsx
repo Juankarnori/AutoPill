@@ -128,9 +128,9 @@ const PillPage:NextPage<Props> = ({ pill }) => {
                     </Box>
 
                     {
-                        datos.map( dato => (
+                        datos.map( (dato,idx) => (
                             <Box key={dato.hora}>
-                                <Typography variant="subtitle1">Dosis: {quantity}</Typography>
+                                <Typography variant="subtitle1">Dosis: {idx + 1}</Typography>
                                 <Typography variant="subtitle2">Hora: {dato.horario} </Typography>
                                 <Divider variant="middle" />
                             </Box>

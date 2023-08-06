@@ -17,6 +17,21 @@ export const getPillByNombre = async( nombre: string ): Promise<IPill | null> =>
 
 }
 
+export const getPillById = async( id: string ): Promise<IPill | null> => {
+
+    await db.connect();
+    const pill = await Pill.findById( id ).select('nombre image').lean();
+
+    await db.disconnect();
+
+    if ( !pill ) {
+        return null;
+    }
+
+    return JSON.parse( JSON.stringify( pill ) )
+
+}
+
 interface PillNombre {
     nombre: string;
 }
