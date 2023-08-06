@@ -65,10 +65,26 @@ const sendReceta = async(req: NextApiRequest, res: NextApiResponse<Data>) => {
         return res.status(400).json({ message: 'No hay receta con ese id'});
     }
     receta.isLoaded = true;
-    recetaIsLoad.save();
-    receta.save();
-    await db.disconnect();
 
+    try {
+        await recetaIsLoad.save();
+    } catch (error) {
+        console.log(error)
+        return res.status(500).json({
+            message: 'Revisar logs del servidor'
+        })
+    }
+
+    try {
+        await receta.save();
+    } catch (error) {
+        console.log(error)
+        return res.status(500).json({
+            message: 'Revisar logs del servidor'
+        })
+    }
+    db.disconnect();
+    
     return res.status(200).json({ message: 'Se envio esta receta'})
 
 }

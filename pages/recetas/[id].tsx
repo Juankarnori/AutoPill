@@ -224,8 +224,6 @@ export const getServerSideProps: GetServerSideProps = async ({ req, query }) => 
         recetarios = [...recetarios,recetario]
   }
 
-  await db.disconnect();
-
   return {
     props: {
       receta,
