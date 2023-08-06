@@ -222,7 +222,7 @@ export const getServerSideProps: GetServerSideProps = async ({ req, query }) => 
         recetarios = [...recetarios,recetario]
   }
 
-  console.log({receta})
+  console.log({recetarios});
 
   return {
     props: {

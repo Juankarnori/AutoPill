@@ -104,7 +104,25 @@ export const getServerSideProps: GetServerSideProps = async ({ req }) => {
 
     const usuario = await dbUsers.getUsuarioById( userId );
 
+    if ( !usuario ) {
+        return {
+            redirect: {
+                destination: '/auth/login?p=/recetario',
+                permanent: false
+            }
+        }
+    }
+
     const recetas = await dbRecetas.getRecetasByUser( userId );
+
+    if ( !recetas ) {
+        return {
+            redirect: {
+                destination: '/',
+                permanent: false
+            }
+        }
+    }
 
     return {
         props: {
