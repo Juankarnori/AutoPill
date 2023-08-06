@@ -4,7 +4,7 @@ import { MainLayout } from "@/components/layouts"
 import { Chip, Grid, Link, Typography } from '@mui/material';
 import { DataGrid, GridColDef, GridRenderCellParams, GridRowsProp } from "@mui/x-data-grid";
 import { jwt } from '@/utils';
-import { dbRecetas, dbUsers } from '@/database';
+import { db, dbRecetas, dbUsers } from '@/database';
 import { IRecetario } from '@/interface';
 
 const columns: GridColDef[] = [
@@ -86,6 +86,7 @@ export const getServerSideProps: GetServerSideProps = async ({ req }) => {
     let isValidToken = false;
     let userId = ''
 
+    await db.connect();
     try {
         userId = await jwt.isValidToken( token );
         isValidToken = true;
@@ -114,15 +115,7 @@ export const getServerSideProps: GetServerSideProps = async ({ req }) => {
     }
 
     const recetas = await dbRecetas.getRecetasByUser( userId );
-
-    if ( !recetas ) {
-        return {
-            redirect: {
-                destination: '/',
-                permanent: false
-            }
-        }
-    }
+    await db.disconnect();
 
     return {
         props: {

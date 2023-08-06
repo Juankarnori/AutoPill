@@ -2,7 +2,7 @@ import { GetServerSideProps, NextPage } from 'next'
 import { MainLayout } from "@/components/layouts"
 import { Box, Button, Card, CardActionArea, CardContent, CardMedia, Chip, Divider, Grid, Typography } from "@mui/material"
 import { jwt } from '@/utils'
-import { dbPills, dbRecetas } from '@/database'
+import { db, dbPills, dbRecetas } from '@/database'
 import { IPill, IRecetario, Recetario } from '@/interface'
 import { CheckCircleOutlineOutlined, UnpublishedOutlined } from '@mui/icons-material'
 import { useEffect, useState } from 'react'
@@ -163,6 +163,8 @@ export const getServerSideProps: GetServerSideProps = async ({ req, query }) => 
   let nombres: string[] = [];
   let medicamentos: IPill[] = [];
 
+  await db.connect();
+
   try {
       userId = await jwt.isValidToken( token );
       isValidToken = true;
@@ -222,7 +224,7 @@ export const getServerSideProps: GetServerSideProps = async ({ req, query }) => 
         recetarios = [...recetarios,recetario]
   }
 
-  console.log({recetarios});
+  await db.disconnect();
 
   return {
     props: {
