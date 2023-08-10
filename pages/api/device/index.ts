@@ -42,7 +42,7 @@ const pairDevice = async(req: NextApiRequest, res: NextApiResponse<Data>) => {
 
     device.isPair = true;
     try {
-        device.save({ validateBeforeSave: true })
+        await device.save({ validateBeforeSave: true })
     } catch (error) {
         console.log(error)
         return res.status(500).json({
