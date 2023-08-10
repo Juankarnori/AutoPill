@@ -68,13 +68,14 @@ export const SideMenu = () => {
 
                             <ListItem 
                                 button
-                                onClick={ () => navigateTo('/recetas/history') }
+                                onClick={ () => navigateTo('/device') }
                             >
                                 <ListItemIcon>
-                                    <MedicationLiquidOutlined/>
+                                    <DevicesOutlined/>
                                 </ListItemIcon>
-                                <ListItemText primary={'Mis Recetas'} />
+                                <ListItemText primary={'Mi Dispositivo'} />
                             </ListItem>
+
                         </>
                     )
                 }

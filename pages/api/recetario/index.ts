@@ -26,10 +26,6 @@ const createRecetario = async(req: NextApiRequest, res: NextApiResponse<Data>) =
 
     const body = req.body as IRecetario;
 
-    console.log({body})
-
-    console.log({body})
-
     const { token = '' } = req.cookies;
 
     let userId = '';

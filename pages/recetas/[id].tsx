@@ -5,9 +5,10 @@ import { jwt } from '@/utils'
 import { db, dbPills, dbRecetas } from '@/database'
 import { IPill, IRecetario, Recetario } from '@/interface'
 import { CheckCircleOutlineOutlined, UnpublishedOutlined } from '@mui/icons-material'
-import { useEffect, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import { autopillApi } from '@/api'
 import { useRouter } from 'next/router'
+import { DeviceContext } from '@/context'
 
 interface Props {
   receta: IRecetario;
@@ -20,6 +21,7 @@ interface Props {
 const RecetasPage:NextPage<Props> = ({ receta, recetarios, medicamentos, id, userId }) => {
 
   const router = useRouter();
+  const { device, updateDevice } = useContext(DeviceContext)
 
   const onRecetaUpdated = async( id: string, userId: string ) => {
 
@@ -27,7 +29,11 @@ const RecetasPage:NextPage<Props> = ({ receta, recetarios, medicamentos, id, use
       
       await autopillApi.put('/recetas/enviar',{ id, userId });
 
-      router.reload();
+      // if ( device.chipId ) {
+      //   updateDevice(device.chipId);
+      // }
+
+      router.replace('/recetas/history')
 
     } catch (error) {
       console.log(error);
@@ -162,8 +168,6 @@ export const getServerSideProps: GetServerSideProps = async ({ req, query }) => 
   let pills: IPill[] = [];
   let nombres: string[] = [];
   let medicamentos: IPill[] = [];
-
-  await db.connect();
 
   try {
       userId = await jwt.isValidToken( token );

@@ -6,10 +6,12 @@ import { DataGrid, GridColDef, GridRenderCellParams, GridRowsProp } from "@mui/x
 import { jwt } from '@/utils';
 import { db, dbRecetas, dbUsers } from '@/database';
 import { IRecetario } from '@/interface';
+import { useContext } from 'react';
+import { AuthContext } from '@/context';
 
 const columns: GridColDef[] = [
     { field: 'id', headerName: 'ID', width: 100 },
-    { field: 'usuario', headerName: 'Usuario', width: 300 },
+    { field: 'usuario', headerName: 'Usuario', width: 150 },
     {
         field: 'cargado',
         headerName: 'Cargado',
@@ -25,14 +27,14 @@ const columns: GridColDef[] = [
     },
     {
         field: 'receta',
-        headerName: 'Ver orden',
-        width: 200,
+        headerName: 'Ver Receta',
+        width: 150,
         sortable: false,
         renderCell: (params: GridRenderCellParams) => {
             return (
                 <NextLink href={`/recetas/${ params.row.recetaId }`} passHref legacyBehavior>
                     <Link underline='always'>
-                        Ver orden
+                        Ver Receta
                     </Link>
                 </NextLink>
             )
@@ -42,15 +44,16 @@ const columns: GridColDef[] = [
 
 interface Props {
     recetas: IRecetario[];
-    usuario: string;
 }
 
-const HistoryPage:NextPage<Props> = ({ recetas, usuario }) => {
+const HistoryPage:NextPage<Props> = ({ recetas }) => {
+
+    const { user } = useContext(AuthContext);
 
     const rows = recetas.map( (receta, idx) => ({
         id: idx + 1,
         cargado: receta.isLoaded,
-        usuario: usuario,
+        usuario: user?.usuario,
         recetaId: receta._id
     }))
 
@@ -86,7 +89,6 @@ export const getServerSideProps: GetServerSideProps = async ({ req }) => {
     let isValidToken = false;
     let userId = ''
 
-    await db.connect();
     try {
         userId = await jwt.isValidToken( token );
         isValidToken = true;
@@ -103,24 +105,11 @@ export const getServerSideProps: GetServerSideProps = async ({ req }) => {
         }
     }
 
-    const usuario = await dbUsers.getUsuarioById( userId );
-
-    if ( !usuario ) {
-        return {
-            redirect: {
-                destination: '/auth/login?p=/recetario',
-                permanent: false
-            }
-        }
-    }
-
     const recetas = await dbRecetas.getRecetasByUser( userId );
-    await db.disconnect();
 
     return {
         props: {
             id: userId,
-            usuario,
             recetas
         }
     }

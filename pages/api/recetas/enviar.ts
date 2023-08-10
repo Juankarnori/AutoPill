@@ -51,9 +51,9 @@ const sendReceta = async(req: NextApiRequest, res: NextApiResponse<Data>) => {
     
     const { _id, user } = JSON.parse(JSON.stringify(recetaIsLoad));
 
-    if ( user !== userId ) {
-        return res.status(400).json({ message: 'No tiene autorizacion '});
-    }
+    // if ( user !== userId ) {
+    //     return res.status(400).json({ message: 'No tiene autorizacion '});
+    // }
 
     if ( _id === id ) {
         return res.status(400).json({ message: 'Esta receta ya esta enviada '});

@@ -1,5 +1,6 @@
 import { User } from "@/models";
 import { isValidObjectId } from "mongoose";
+import { db } from ".";
 
 export const getUsuarioById = async( userId: string ):Promise<string | null> => {
 
@@ -7,7 +8,9 @@ export const getUsuarioById = async( userId: string ):Promise<string | null> => 
         return null;
     }
 
+    await db.connect();
     const user = await User.findById(userId).lean();
+    await db.disconnect();
     
     if ( !user ) {
         return null;

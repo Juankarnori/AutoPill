@@ -34,9 +34,9 @@ export const Navbar = () => {
             <Box flex={1} />
 
             <Box sx={{ display: isSearchVisible ? 'none' : { xs: 'none', sm: 'block' } }} className='fadeIn'>
-               <NextLink href='/devices' passHref legacyBehavior>
+               <NextLink href='/recetas/history' passHref legacyBehavior>
                     <Link>
-                        <Button color={ asPath === '/devices' ? 'primary' : 'info' }>Dispositivos</Button>
+                        <Button color={ asPath === '/recetas/history' ? 'primary' : 'info' }>Recetas</Button>
                     </Link>
                 </NextLink> 
                <NextLink href='/pills' passHref legacyBehavior>
