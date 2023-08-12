@@ -24,14 +24,14 @@ const pairDevice = async(req: NextApiRequest, res: NextApiResponse<Data>) => {
     const { chipId = '' } = req.query;
 
     if ( !chipId ) {
-        return res.status(200).json(false)
+        return res.status(400).json(false)
     }
 
     await db.connect();
     const device = await Device.findOne({ chipId });
     if ( !device ) {
         console.log('No existe un dispositivo con el chipId: '+ chipId);
-        return res.status(200).json(false)
+        return res.status(400).json(false)
     }
 
     device.isPair = true;
