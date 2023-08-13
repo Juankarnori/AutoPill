@@ -5,6 +5,7 @@ import type { NextApiRequest, NextApiResponse } from 'next'
 type Data = 
 | { message: string }
 | { horas: number[] }
+| number[]
 
 export default function (req: NextApiRequest, res: NextApiResponse<Data>) {
 
@@ -49,8 +50,7 @@ const getEsp32 = async(req: NextApiRequest, res: NextApiResponse<Data>) => {
     console.log({horas});
 
     await db.disconnect();
-
     
-    return res.status(200).json( {horas} )
+    return res.status(200).json( horas )
 
 }
